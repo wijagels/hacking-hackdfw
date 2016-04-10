@@ -75,17 +75,14 @@ var check = function() {
     try {
       body = JSON.parse(body);
     } catch(e) {
-      debug('Server appears to be fucked');
+      debug('Server appears to be fucked...');
       return;
     }
     if(body['status'] === 'success') {
-      debug('READY TO GO!');
+      debug('Attempting decryption and attack!');
       clearInterval(timer);
       decipher(body);
-    } else {
-        var cooldown = parseInt(body['error'].match(/\d+/)[0]);
-        debug('On cooldown for ' + cooldown + ' minutes.');
-    }
+    } else {debug(body['error']);}
   });
 };
 var timer = setInterval(check, 5000);

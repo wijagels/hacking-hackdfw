@@ -54,7 +54,7 @@ var attack = function(callback) {
         body = JSON.parse(body);
       } catch(e) {
         return debug('Bad server reply');
-      } if(body.status === 'error') {
+      } if(body.result === false) {
         if(done) {
           done = false;
           return callback(null, [submitopts.body, false]);

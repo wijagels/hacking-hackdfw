@@ -1,0 +1,19 @@
+{
+  "name": "hackdfw",
+  "version": "1.0.0",
+  "description": "Kill all humans",
+  "main": "hax.js",
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "debug": "^2.2.0",
+    "python-shell": "^0.4.0",
+    "request": "^2.70.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "DEBUG=dfw-hax node hax.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Jagels",
+  "license": "MIT"
+}

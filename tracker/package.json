@@ -6,6 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.3",
     "debug": "^2.2.0",
+    "mongodb": "^2.1.16",
     "request": "^2.70.0"
   },
   "devDependencies": {},

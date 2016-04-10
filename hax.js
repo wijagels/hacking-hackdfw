@@ -28,7 +28,7 @@ var checkopts = { method: 'GET',
 
 var decipher = function(body) {
   var pyopts = {
-    pythonPath: '/usr/bin/python2',
+    pythonPath: '/usr/bin/python3',
     args: [body.challenge.start]
   };
   Py.run('cs.py', pyopts, function(err, results) {

@@ -6,25 +6,20 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 
 var url = 'mongodb://localhost:27017/tracker';
+
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
-  console.log("Connected correctly to server.");
+  debug("Connected correctly to server.");
   db.close();
 });
 
 var insertDocument = function(db, json, callback) {
-    //console.log(json);
-    db.collection('tracker').insertOne(json, function(err, result) {
-        assert.equal(err, null);
-        console.log("Inserted a document into the tracker collection.");
-        callback();
-    });
+  db.collection('tracker').insertOne(json, function(err, result) {
+    assert.equal(err, null);
+    debug("Inserted a document into the tracker collection.");
+    callback();
+  });
 };
-
-
-
-
-
 
 var headers = {
   referer: 'http://game.hackdfw.com/login',
@@ -47,18 +42,21 @@ var check = function() {
     }
     if(body['status'] === 'success') {
       debug('Server online');
-      //clearInterval(timer);
-      debug(body);
+
+      var json = {};
+      json.time = Date.now();
+      json.leaderboard = body.leaderboard;
+      debug(json);
 
       MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        insertDocument(db, body, function() {
+        insertDocument(db, json, function() {
         db.close();
         });
       });
-    
     } else {debug(body['error']);}
   });
 };
-//var timer = setInterval(check, 10000);
+
 check();
+var timer = setInterval(check, 30*60*1000);

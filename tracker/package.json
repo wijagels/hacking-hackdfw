@@ -1,0 +1,18 @@
+{
+  "name": "hackdfw-tracker",
+  "version": "1.0.0",
+  "description": "Kill all humans",
+  "main": "tracker.js",
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "debug": "^2.2.0",
+    "request": "^2.70.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "DEBUG=dfw-tracker node tracker.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Hung",
+  "license": "MIT"
+}

@@ -2,7 +2,7 @@ var request = require('request');
 var Py = require('python-shell');
 var debug = require('debug')('dfw-hax');
 var async = require('async');
-var user = require('./user.js')
+var user = require('./user.js');
 
 var headers = {
   referer: 'http//game.hackdfw.com/play/puzzles',
@@ -45,7 +45,7 @@ var decipher = function(body) {
 
 var attack = function(callback) {
   var done = true;
-  for(var i=0;i < 20;i++) {
+  for(var i=0;i < 200;i++) {
     // console.log('fired %s', submitopts.body);
     request(submitopts, function (error, response, body) {
       if (error) return debug(error);
@@ -59,7 +59,7 @@ var attack = function(callback) {
           return callback(null, [submitopts.body, false]);
         }
       } else {
-        timer = setInterval(check, 5000);
+        timer = setInterval(check, 2000);
         if(done) {
           done = false;
           return callback('Done', body);
@@ -85,4 +85,4 @@ var check = function() {
     }
   });
 };
-var timer = setInterval(check, 5000);
+var timer = setInterval(check, 2000);

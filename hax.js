@@ -2,19 +2,20 @@ var request = require('request');
 var Py = require('python-shell');
 var debug = require('debug')('dfw-hax');
 var async = require('async');
+var user = require('./user.js')
 
 var headers = {
   referer: 'http//game.hackdfw.com/play/puzzles',
   dnt: '1',
   accept: '*/*',
-  authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTE4LCJlbWFpbCI6IndqYWdlbHMxQGJpbmdoYW10b24uZWR1Iiwicm9sZSI6ImhhY2tlciIsImlhdCI6MTQ2MDI0MzA3MywiZXhwIjoxNDYwMjU3NDczfQ.EepBMRdWtkVzJ5LxqD643MQYktEYCPNpEbx81WjA9RU',
+  authorization: user.authorization,
   // origin: 'http//game.hackdfw.com',
   // 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36',
   'content-type': 'application/json'
 };
 
 var submitopts = { method: 'POST',
-  url: 'https://hdfw-tehgame.herokuapp.com/puzzle/caesar/wjagels1@binghamton.edu',
+  url: 'https://hdfw-tehgame.herokuapp.com/puzzle/caesar/' + user.email,
   headers: headers,
   body: '{"answer":"asdf"}'
 };

@@ -2,15 +2,16 @@ var request = require('request');
 var Py = require('python-shell');
 var debug = require('debug')('dfw-hax');
 var async = require('async');
-var user = require('./user.js');
+var reqstr = './' + (process.argv[2] || 'user.js');
+debug('requiring', reqstr);
+var user = require('./' + reqstr);
+// var user = require('./user.js');
+debug(process.argv);
 
 var headers = {
   referer: 'http//game.hackdfw.com/play/puzzles',
-  dnt: '1',
   accept: '*/*',
   authorization: user.authorization,
-  // origin: 'http//game.hackdfw.com',
-  // 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36',
   'content-type': 'application/json'
 };
 
@@ -39,14 +40,14 @@ var decipher = function(body) {
       attack(callback);
     }, function(err, results) {
       debug(err, results);
-      timer = setInterval(check, 5000);
+      timer = setInterval(check, 10000);
     });
   });
 };
 
 var attack = function(callback) {
-  var done = true;
-  for(var i=0;i < 200;i++) {
+  var lock = true;
+  for(var i=0;i < 1;i++) {
     // console.log('fired %s', submitopts.body);
     request(submitopts, function (error, response, body) {
       if (error) return debug(error);
@@ -55,13 +56,13 @@ var attack = function(callback) {
       } catch(e) {
         return debug('Bad server reply');
       } if(body.result === false) {
-        if(done) {
-          done = false;
+        if(lock) {
+          lock = false;
           return callback(null, [submitopts.body, false]);
         }
       } else {
-        if(done) {
-          done = false;
+        if(lock) {
+          lock = false;
           return callback('Done', body);
         }
       }
@@ -85,4 +86,4 @@ var check = function() {
     } else {debug(body['error']);}
   });
 };
-var timer = setInterval(check, 5000);
+var timer = setInterval(check, 10000);

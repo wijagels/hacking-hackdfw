@@ -82,6 +82,9 @@ var check = function() {
       debug('READY TO GO!');
       clearInterval(timer);
       decipher(body);
+    } else {
+        var cooldown = parseInt(body['error'].match(/\d+/)[0]);
+        debug('On cooldown for ' + cooldown + ' seconds.');
     }
   });
 };

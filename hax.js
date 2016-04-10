@@ -39,6 +39,7 @@ var decipher = function(body) {
       attack(callback);
     }, function(err, results) {
       debug(err, results);
+      timer = setInterval(check, 5000);
     });
   });
 };
@@ -59,7 +60,6 @@ var attack = function(callback) {
           return callback(null, [submitopts.body, false]);
         }
       } else {
-        timer = setInterval(check, 2000);
         if(done) {
           done = false;
           return callback('Done', body);
@@ -85,4 +85,4 @@ var check = function() {
     }
   });
 };
-var timer = setInterval(check, 2000);
+var timer = setInterval(check, 5000);

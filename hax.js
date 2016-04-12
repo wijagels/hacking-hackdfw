@@ -51,6 +51,7 @@ var checkopts_play = { method: 'GET',
 var decipher = function(body) {
   var pyopts = {
     pythonPath: '/usr/bin/python3',
+    scriptPath: 'python',
     args: [body.challenge.start]
   };
   Py.run('cs.py', pyopts, function(err, results) {
@@ -69,6 +70,7 @@ var decipher = function(body) {
 var decipher_vig = function(body) {
   var pyopts = {
     pythonPath: '/usr/bin/python3',
+    scriptPath: 'python',
     args: [body.challenge.start]
   };
   Py.run('vigenereCipher.py', pyopts, function(err, results) {
@@ -84,6 +86,7 @@ var decipher_vig = function(body) {
 var decipher_play = function(body) {
   var pyopts = {
     pythonPath: '/usr/bin/python2',
+    scriptPath: 'python',
     args: [body.challenge.start]
   };
   Py.run('play.py', pyopts, function(err, results) {

@@ -64,6 +64,9 @@ for(var focusIndex in vips) {
   for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
     var foundCheck = false;
     times.push(timeConverter(entries[entryIndex].time));
+
+  for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
+    var foundCheck = false;
     for(var playerIndex in entries[entryIndex].leaderboard) {
       var player = entries[entryIndex].leaderboard[playerIndex];
       if(Object.keys(player)[0] == focus) {

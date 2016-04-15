@@ -67,8 +67,9 @@ signal = [abs(x) for x in signal]
 STEP = 2000
 VOLUME_THRESHOLD = 50
 averages = [0 if (sum(signal[i*STEP : (i+2)*STEP]) / STEP) < VOLUME_THRESHOLD else 1 for i in range(1, ((len(signal)//STEP) - 1))]
+#print(averages)
 
-DAH_LENGTH_THRESHOLD = 8        #   Minimum length of a 'Dah' tone
+DAH_LENGTH_THRESHOLD = 7        #   Minimum length of a 'Dah' tone
 SILENCE_LENGTH_THRESHOLD = 8    #   Minimum length of letter delimiting silence
 tracker = 0                     #   Keeps track of the beginning of the last silence or sound
 code = ''                       #   Morse code transcription
@@ -83,7 +84,7 @@ for i in range(1, len(averages)):
         #   if noise length passes threshold, it's a dah. else it's a dit
         code += '_' if (i-tracker) > DAH_LENGTH_THRESHOLD else '.'
         tracker = i
-
+#print(code)
 
 
 ##########################

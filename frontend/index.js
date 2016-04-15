@@ -9,16 +9,13 @@ var user = require('./' + reqstr);
 var plotly = require('plotly')(user.user, user.apikey)
 
 function timeConverter(UNIX_timestamp){
-  //console.log(UNIX_timestamp);
-  var a = new Date(UNIX_timestamp * 1000);
+  var a = new Date(UNIX_timestamp);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  //  var year = a.getFullYear();
   var month = months[a.getMonth()];
   var date = a.getDate();
   var hour = a.getHours();
   var min = a.getMinutes();
-  var sec = a.getSeconds();
-  var time = month + ' ' + date + ', ' + hour + ':' + min + ':' + sec ;
+  var time = month + ' ' + date + ', ' + hour + ':' + min;
   return time;
 }
 
@@ -64,9 +61,6 @@ for(var focusIndex in vips) {
   for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
     var foundCheck = false;
     times.push(timeConverter(entries[entryIndex].time));
-
-  for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
-    var foundCheck = false;
     for(var playerIndex in entries[entryIndex].leaderboard) {
       var player = entries[entryIndex].leaderboard[playerIndex];
       if(Object.keys(player)[0] == focus) {
@@ -103,9 +97,8 @@ for(var focusIndex in vips) {
   //    append user data to plot
   plotData.push({
     type: 'scatter',
-    //x: times,
-
     x: Object.keys(focusScores),
+    x: times,
     y: focusScores,
     mode: 'lines',
     name: focus,

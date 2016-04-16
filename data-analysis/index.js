@@ -11,15 +11,10 @@ var plotly = require('plotly')(user.user, user.apikey)
 function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var time = month + ' ' + date + ', ' + hour + ':' + min;
-  return time;
+  return time = (a.getMonth()+1) + '/' + a.getDate()+ ', ' + a.getHours() + ':' + a.getMinutes();
 }
 
-var obj = JSON.parse(fs.readFileSync('./tracker0710.json', 'utf8'));
+var obj = JSON.parse(fs.readFileSync('./tracker1141.json', 'utf8'));
 
 //  Selected list of assorted strong players
 var vips = [
@@ -51,18 +46,25 @@ var vipsSpending = [
 var plotData = [];
 var entries = obj.everything;
 
-for(var focusIndex in vips) {
-  var focus = vips[focusIndex];
-  var focusScores = [];
-  var focusGains = [];
-  var numOfEntries = entries.length;
-  var times = [];
+var numOfEntries = entries.length;
+
+var times = []; //  for x axis of graph
+for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
+  times.push(timeConverter(entries[entryIndex].time));
+}
+
+//  cycle through all vips to grab their info
+for(var focusIndex in vips) {       
+  var focus = vips[focusIndex];         //  current vip to focus on
+  var focusScores = [];                 //  focus' scores per entry
+  var focusGains = [];                  //  focus' gains per entry
 
   for(var entryIndex = 1; entryIndex < numOfEntries; entryIndex++) {
     var foundCheck = false;
+    var entryLeaderboard = entries[entryIndex].leaderboard;
     times.push(timeConverter(entries[entryIndex].time));
-    for(var playerIndex in entries[entryIndex].leaderboard) {
-      var player = entries[entryIndex].leaderboard[playerIndex];
+    for(var playerIndex in entryLeaderboard) {
+      var player = entryLeaderboard[playerIndex];
       if(Object.keys(player)[0] == focus) {
         foundCheck = true;
         focusScores.push(player[focus]);
@@ -77,7 +79,7 @@ for(var focusIndex in vips) {
     }
   }
   
-  var scope = 4;                                            //  number of recent entries to analyze
+  var scope = 12;                                           //  number of recent entries to analyze
   var curScore = focusScores[focusScores.length - 1];       //  player's current score
   var ptsTil10k = 10000-curScore+vipsSpending[focusIndex];  //  how many points the player needs until 10k
 
@@ -97,7 +99,6 @@ for(var focusIndex in vips) {
   //    append user data to plot
   plotData.push({
     type: 'scatter',
-    x: Object.keys(focusScores),
     x: times,
     y: focusScores,
     mode: 'lines',
@@ -113,10 +114,26 @@ console.log();
 
 //  plot the data!
 var layout = {
-  fileopt : "overwrite", 
-  filename : "mongo-tracker"
+  title: "HackDFW Game Tracking",
+  xaxis: {
+    title: "Time",
+    titlefont: {
+      family: "Courier New, monospace",
+      size: 18,
+      color: "#7f7f7f"
+    }
+  },
+  yaxis: {
+    title: "Points",
+    titlefont: {
+      family: "Courier New, monospace",
+      size: 18,
+      color: "#7f7f7f"
+    }
+  }
 };
-plotly.plot(plotData, layout, function (err, msg) {
+var graphOptions = {layout: layout, filename: "hackdfw-tracker", fileopt: "overwrite"};
+plotly.plot(plotData, graphOptions, function (err, msg) {
     if (err) return console.log(err);
         console.log(msg);
 });

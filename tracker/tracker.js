@@ -1,22 +1,20 @@
 var request = require('request');
 var debug = require('debug')('dfw-tracker');
-var async = require('async');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
 
 var url = 'mongodb://localhost:27017/tracker';
 
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
-  debug("Connected correctly to server.");
+  debug('Connected correctly to server.');
   db.close();
 });
 
 var insertDocument = function(db, json, callback) {
   db.collection('tracker').insertOne(json, function(err, result) {
     assert.equal(err, null);
-    debug("Inserted a document into the tracker collection.");
+    debug('Inserted a document into the tracker collection.', result);
     callback();
   });
 };
@@ -51,7 +49,7 @@ var check = function() {
       MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         insertDocument(db, json, function() {
-        db.close();
+          db.close();
         });
       });
     } else {debug(body['error']);}
@@ -59,4 +57,4 @@ var check = function() {
 };
 
 check();
-var timer = setInterval(check, 30*60*1000);
+setInterval(check, 30*60*1000);

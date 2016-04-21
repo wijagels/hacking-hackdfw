@@ -6,7 +6,6 @@ var async = require('async');
 var reqstr = './' + (process.argv[2] || 'user.js');
 debug('requiring', reqstr);
 var user = require('./' + reqstr);
-// var user = require('./user.js');
 debug(process.argv);
 
 var headers = {
@@ -135,7 +134,6 @@ var decipher_morse = function(body) {
 var attack = function(callback) {
   var lock = true;
   for(var i=0;i < 1;i++) {
-    // console.log('fired %s', submitopts.body);
     request(submitopts, function (error, response, body) {
       if (error) return debug(error);
       try {
@@ -153,7 +151,6 @@ var attack = function(callback) {
           return callback('Done', body);
         }
       }
-      // debug(body);
     });
   }
 };
@@ -170,7 +167,6 @@ var solve_vig = function(callback) {
     } else {
       return callback('Done', body);
     }
-    // debug(body);
   });
 };
 
@@ -186,7 +182,6 @@ var solve_play = function(callback) {
     } else {
       return callback('Done', body);
     }
-    // debug(body);
   });
 };
 
@@ -202,7 +197,6 @@ var solve_morse = function(callback) {
     } else {
       return callback('Done', body);
     }
-    // debug(body);
   });
 };
 
@@ -256,4 +250,4 @@ var check = function() {
     } else {debug(body['error']);}
   });
 };
-var timer = setInterval(check, 10000);
+setInterval(check, 10000);
